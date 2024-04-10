@@ -1,10 +1,10 @@
 git config --global user.email "epulae.corp@gmail.com"
 git config --global user.name "epulaecorp"
 
-echo "# smartHome" >> README.md
+echo "# home" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
 git branch -M main
-git remote add origin https://github.com/epulaecorp/smartHome.git
+git remote add origin https://github.com/epulaecorp/home.git
 git push -u origin main
