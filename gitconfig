@@ -1,5 +1,5 @@
 git config --global user.email "epulae.corp@gmail.com"
-git config --global user.name "fvicente"
+git config --global user.name "epulaecorp"
 
 echo "# smartHome" >> README.md
 git init
