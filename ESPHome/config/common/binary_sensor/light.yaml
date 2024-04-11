@@ -1,0 +1,10 @@
+platform: gpio
+id: input
+pin:
+  number: ${gpio_eSwitch}
+on_press:
+  then:
+    switch.turn_on: relay
+on_release:
+  then:
+    switch.turn_off: relay

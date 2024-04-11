@@ -1,5 +1,5 @@
           - type: custom:button-card
-            entity: 
+            entity: switch.cocina
             name: Luces
             template:
               - light

@@ -1,5 +1,5 @@
           - type: custom:button-card
-            entity: switch.comedor_lampara
+            entity: switch.comedor
             name: Lámpara
             template:
               - switch

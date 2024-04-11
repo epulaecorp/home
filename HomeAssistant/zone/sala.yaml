@@ -15,7 +15,7 @@
                 cards:
                   # Luces
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.sala
                     name: Luces
                     template:
                       - switch
@@ -23,7 +23,7 @@
 
                   # Ventilador
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.ventilador
                     name: Ventilador
                     template:
                       - switch
@@ -31,7 +31,7 @@
 
                   # Television
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.television
                     name: Tv
                     template:
                       - switch
@@ -49,7 +49,7 @@
                 columns: 2
                 cards:
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.estereo
                     name: Stereo
                     template:
                       - switch

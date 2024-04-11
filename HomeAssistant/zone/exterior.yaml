@@ -16,7 +16,7 @@
 
                   # frente
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.frente
                     name: Frente
                     template:
                       - switch
@@ -24,7 +24,7 @@
 
                   # Patio
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.patio
                     name: Patio
                     template:
                       - switch

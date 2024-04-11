@@ -1,5 +1,5 @@
           - type: custom:button-card
-            entity: 
+            entity: switch.bano_light_switch
             name: WC
             template:
               - switch
