@@ -243,3 +243,22 @@
         in ['unavailable', 'none', 'unknown'] %} \n  {{ as_timestamp(states('sensor.echo_recamara_next_alarm'))|timestamp_custom('%Y-%m-%d
         %H:%M:00') }}\n{%else%}\n  {{ \"1977-04-13 05:04:20\" }}\n{% endif %}\n"
   mode: single
+- id: '1712855196186'
+  alias: random lights
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /1
+  condition:
+  - condition: time
+    after: '11:00:00'
+    before: '12:00:00'
+  action:
+  - delay: '{{range(15,30) | random}}
+
+      '
+  - service: homeassistant.toggle
+    target:
+      entity_id: switch.comedor
+    data: {}
+  mode: single

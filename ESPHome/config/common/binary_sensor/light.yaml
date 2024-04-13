@@ -2,6 +2,8 @@ platform: gpio
 id: input
 pin:
   number: ${gpio_eSwitch}
+filters:
+  - delayed_on_off: 10ms
 on_press:
   then:
     switch.turn_on: relay

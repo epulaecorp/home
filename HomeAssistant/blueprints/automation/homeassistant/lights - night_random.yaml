@@ -5,21 +5,55 @@ blueprint:
   domain: automation
   input:
     target_light:
-      name: Light to control
+      name: Target Light
       description: Luz a controlar
       selector:
         entity:
           domain:
             - light
             - switch
-    override_switch_entity:
-      name: Enable Automation Switch
-      description: Switch de habilitación.
+    night_sensor:
+      name: Night binary sensor
+      description: sensor binario de noche 
       selector:
         entity:
           domain:
-            - input_boolean
-            - switch
+            - binary_sensor
+    
+    start:
+      name: Start Time
+      description: Hora de inicio
+      selector:
+        time:
+
+    end:
+      name: End Time 
+      description: Hora de finalización
+      selector:
+        time:
+
+    min_time:
+      name: Min Time ON / OFF
+      description: Tiempo minimo de encendio o apagado
+      default: 15
+      selector:
+        number:
+          min: 10
+          max: 30
+          step: 5
+          unit_of_measurement: minutes
+
+    max_time:
+      name: Max Time ON / OFF
+      description: Tiempo máximo de endendido o apagado
+      default: 30
+      selector:
+        number:
+          min: 10
+          max: 30
+          step: 5
+          unit_of_measurement: minutes
+
     away_lighting_switch_entity:
       name: Away Lighting Switch
       description: Switch de ausencia. 
@@ -61,6 +95,16 @@ variables:
   trigger_minutes: !input trigger_minutes
   random_delay_max_minutes: !input random_delay_max_minutes
 
+  start: !input start_time
+  end: !input end_time
+
+  min_time: !input min_time
+  max_time: !max _time
+
+  night_sensor: !input night_sensor
+
+
+  
 trigger:
   - platform: time_pattern
     minutes: /1
@@ -72,26 +116,27 @@ condition:
     entity_id: !input override_switch_entity
     state: 'off'
   - condition: state
-    entity_id: !input away_lighting_switch_entity
+    entity_id: night_sensor
     state: 'on'
   - condition: numeric_state
     entity_id: sun.sun
     attribute: elevation
     below: '-2.0'
+    
 action:
   - choose:
       - conditions:
           - condition: time
-            before: !input lights_out_time
+            before: end
           - condition: time
-            after: '18:00:00'
+            after: start
         sequence:
           - delay:
-              minutes: "{{ range(5,random_delay_max_minutes) | random }}"
+              minutes: "{{ range(min_time,max_time) | random }}"
           - choose:
               - conditions:
                   - condition: state
-                    entity_id: !input away_lighting_switch_entity
+                    entity_id: night_sensor
                     state: 'on'
                 sequence:
                   - service: homeassistant.toggle
@@ -103,11 +148,11 @@ action:
         entity_id: !input target_light
         state: 'on'
       - delay:
-          minutes: "{{ range(5,random_delay_max_minutes) | random }}"
+          minutes: "{{ range(min_time,max_time) | random }}"
       - choose:
           - conditions:
               - condition: state
-                entity_id: !input away_lighting_switch_entity
+                entity_id: night_sensor
                 state: 'on'
             sequence:
               - service: homeassistant.turn_off

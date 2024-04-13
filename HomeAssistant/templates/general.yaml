@@ -1,0 +1,17 @@
+- binary_sensor:
+      - unique_id: 'is_night'
+        name: 'is night'
+        state: >
+          {{ is_state('sun.sun', 'below_horizon') }}
+        icon: mdi:weather-night
+      
+      - unique_id: 'is_day'
+        name: 'is day'
+        state: >
+          {{ is_state('sun.sun', 'above_horizon') }}
+        icon: mdi:weather-sunny
+
+      - unique_id: 'away_mode'
+        name: 'away mode'
+        state: off
+        icon: mdi:home-export-outline
