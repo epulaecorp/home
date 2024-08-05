@@ -257,8 +257,4 @@
   - delay: '{{range(15,30) | random}}
 
       '
-  - service: homeassistant.toggle
-    target:
-      entity_id: switch.comedor
-    data: {}
   mode: single

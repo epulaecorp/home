@@ -1,0 +1,55 @@
+blueprint:
+  name: DEVICE - Auto OFF
+  description: Apaga automáticamente un dispositivo después de un periodo de tiempo, con opción de que solo ocurra durante el día.
+  domain: automation
+  input:
+    light_entity:
+      name: Dispositivo a controlar
+      description: La dispositivo que se apagará después de un tiempo.
+      selector:
+        entity:
+          domain: light
+          domain: switch
+    delay_time:
+      name: Tiempo de espera
+      description: Tiempo en minutos antes de apagar la luz.
+      default: 10
+      selector:
+        number:
+          min: 1
+          max: 120
+          unit_of_measurement: minutes
+          mode: slider
+    only_daytime:
+      name: Automatizar solo durante el día
+      description: Activar para que el dispositivo solo se apague automáticamente durante el día.
+      default: false
+      selector:
+        boolean:
+
+trigger:
+  - platform: state
+    entity_id: !input light_entity
+    to: 'on'
+
+condition:
+  - condition: or
+    conditions:
+      - condition: not
+        conditions:
+          - condition: input_boolean
+            entity_id: !input only_daytime
+      - condition: and
+        conditions:
+          - condition: input_boolean
+            entity_id: !input only_daytime
+          - condition: sun
+            after: sunrise
+            before: sunset
+
+action:
+  - delay: 
+      minutes: !input delay_time
+  - service: light.turn_off
+    target:
+      entity_id: !input light_entity

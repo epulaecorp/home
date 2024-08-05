@@ -31,7 +31,6 @@ captive_portal:
 #  - platform: homeassistant
 #    id: hass_time
 
-
 text_sensor:
   
   - platform: wifi_info
