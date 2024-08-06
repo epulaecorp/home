@@ -1,6 +1,5 @@
 blueprint:
   name: LIGHT - Randomised Light at Night
-  
   description: Randomly toggles a light at night within set parameters
   domain: automation
   input:
@@ -99,8 +98,7 @@ variables:
   end: !input end_time
 
   min_time: !input min_time
-  max_time: !max _time
-
+  max_time: !input max_time
   night_sensor: !input night_sensor
 
 

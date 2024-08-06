@@ -258,3 +258,41 @@
 
       '
   mode: single
+- id: '1722900030197'
+  alias: BAÑO - Auto OFF
+  description: ''
+  use_blueprint:
+    path: homeassistant/device - autoOFF.yaml
+    input:
+      device: switch.room1_light_switch
+      only_daytime: true
+      delay_time: '30'
+      target_device: switch.bano_light_switch
+      target_entity: switch.room1_light_switch
+- id: '1722951797924'
+  alias: ROOM1 - Auto OFF
+  description: ''
+  use_blueprint:
+    path: homeassistant/device - autoOFF.yaml
+    input:
+      target_device: switch.room1_light_switch
+      delay_time: '10'
+      only_daytime: true
+- id: '1722954712758'
+  alias: FRENTE - AutoOFF
+  description: ''
+  use_blueprint:
+    path: homeassistant/device - autoOFF.yaml
+    input:
+      target_device: switch.frente
+      delay_time: '1'
+      only_daytime: true
+- id: '1722954758801'
+  alias: PATIO - AutoOFF
+  description: ''
+  use_blueprint:
+    path: homeassistant/device - autoOFF.yaml
+    input:
+      target_device: switch.patio
+      delay_time: '1'
+      only_daytime: true

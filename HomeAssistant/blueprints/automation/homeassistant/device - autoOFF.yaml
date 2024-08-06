@@ -1,0 +1,52 @@
+blueprint:
+  name: DEVICE - Daytime AutoOFF
+  description: Apaga un switch o luz después de un tiempo determinado con un selector para que funcione solo durante el día.
+  domain: automation
+  input:
+    target_device:
+      name: Switch o Luz
+      description: El switch o luz que se apagará.
+      selector:
+        entity:
+          domain: 
+            - switch
+            - light
+    delay_time:
+      name: Tiempo de demora
+      description: Tiempo después del cual el switch o luz se apagará (minutos).
+      default: 00:01:00
+      selector:
+        select:
+          options:
+            - "1"
+            - "5"
+            - "10"
+            - "15"
+            - "30"
+    only_daytime:
+      name: Solo durante el día
+      description: Seleccione si desea que la automatización funcione solo durante el día.
+      default: false
+      selector:
+        boolean:
+
+trigger:
+  - platform: state
+    entity_id: !input target_device
+    to: 'on'
+
+condition:
+  - condition: template
+    value_template: >
+      {% if is_state('input_boolean.only_daytime', 'on') %}
+        {{ is_state('sun.sun', 'above_horizon') }}
+      {% else %}
+        true
+      {% endif %}
+
+action:
+  - delay: 
+      minutes: !input delay_time
+  - service: homeassistant.turn_off
+    target:
+      entity_id: !input target_device
