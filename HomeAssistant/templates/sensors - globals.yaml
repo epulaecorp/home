@@ -41,6 +41,54 @@
           {% else %} Buenas noches {{'\U0001F44B\U0001F3FB'}}
           {% endif %}
           </b>
+        active: >
+          <font color='#6a7377'><b>
+          {% set lights = [
+            states.switch.sala,
+            states.switch.comedor,
+            states.switch.cocina,
+            states.switch.bano_light_switch,
+            states.switch.room1_light_switch,
+            states.switch.patio,
+            states.switch.patio_exterior,
+          ] %}
+
+          {% set devices =[
+            states.switch.television,
+            states.switch.stereo,
+            states.switch.room1_tv
+          ] %}
+          {% set fans =[
+            states.switch.ventilador,
+          ] %}
+
+          {% set lights_on = lights | selectattr('state','eq','on') | list %}
+          {% set lights_count = lights_on | length %}
+          {% set lights_name = lights | selectattr('state','eq','on') | map(attribute='name') | join(', ') %}
+
+          {% set fans_on = fans | selectattr('state','eq','on') | list %}
+          {% set fans_count = fans_on | length %}
+
+          {% set devices_on = devices | selectattr('state','search','(on|cool|fan_only|playing)') | list %}
+          {% set devices_name = devices_on | map(attribute='name') | join(', ') %}
+          {% set devices_count = devices_on | length %}
+
+          {% set all_count = lights_count + fans_count + devices_count %}
+
+          {% if (all_count > 0 ) %}
+              Encendidos: {{all_count }} <br>
+            {% if lights_count > 0 %}  
+              Luces: {{ lights_count }} <br>
+            {% endif %}
+            {% if fans_count > 0 %}
+              Ventiladores: {{ fans_count }} <br>
+            {% endif %}
+            {% if devices_count > 0 %}
+              Dispositivos: {{ devices_count }} <br>
+            {% endif %}
+       
+          {% endif %}   
+          </b></font>
     
     # ...Forecast... #
     - unique_id: "forecast_temperature"

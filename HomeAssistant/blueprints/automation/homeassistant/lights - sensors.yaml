@@ -9,45 +9,18 @@ blueprint:
     <summary><b>The Automation Process:</b> - Click here to expand</summary>
 
     
-      - **Trigger:**
-        - You can choose any [binary sensors](https://www.home-assistant.io/integrations/binary_sensor/) or [schedules](https://www.home-assistant.io/integrations/schedule) to trigger the automation.
-        - A trigger sensor, such as a Motion Sensor, will activate lights, switches, scenes, and scripts when the automation is triggered.
-        - A time delay begins the turning OFF process after all triggers are clear. See [grouping](https://community.home-assistant.io/t/481048/34) sensors for more information.
-        - If triggers are activated again before the time delay ends, the automation resets for continuous lighting.
+      - Activación:**
+        - Puede elegir cualquier [sensor binario](https://www.home-assistant.io/integrations/binary_sensor/) o [programación](https://www.home-assistant.io/integrations/schedule) para activar la automatización.
+        - Un sensor de activación, como un sensor de movimiento, activará luces, interruptores, escenas y scripts cuando se active la automatización.
+        - Un retardo de tiempo inicia el proceso de apagado después de que todos los disparadores estén despejados. Ver [agrupación](https://community.home-assistant.io/t/481048/34...es, se activa automáticamente en función de las condiciones.
 
-      - **Scene and Script Integration:**
-        - Scenes or scripts offer additional customization for your spaces.
-
-      - **Light Control Options:**
-          - Utilize "Light Control" to adjust brightness, colour temperature, and transition times.
-
-      - **Dynamic Lighting Options:**
-        - Opt for 'Dynamic Lighting' to continuously adjust brightness based on lux values or adapt colour temperature and brightness according to the sun's changing elevation.
-
-      - **Manual Override:**
-        - Use "Bypass Options" for manual bypassing of trigger sensors, providing manual control and additional customization.
-
-      - **Sun Elevation Options:**
-        - Implement "Sun Elevation" to restrict automation to darker conditions aligned with the sun's position.
-
-      - **Ambient Light Sensing Options:**
-        - Set up an Ambient Light Sensor for activation in low-light conditions, customizable with specified LUX values.
-
-      - **Time-Based Options:**
-        - Specify precise start and end times along with weekday selections to define when the automation should run.
-
-      - **Device Tracker Options:**
-        - Utilize "Device Tracker" to activate automation when home or within specified zones, preventing unnecessary activations. This feature is particularly useful to prevent unnecessary lighting activations when pets trigger sensors while no one is home.
-
-      - **Night Lights Mode:**
-        - Enable "Night Lights" for softer illumination during night time activities, automatically enabled based on conditions.
-
-      - **HA Restart Safeguards:**
-        - Benefit from built-in safeguards for Home Assistant restarts.
+      - Salvaguardias de reinicio deHA:**
+        - Benefíciate de las salvaguardas integradas para los reinicios del Asistente del Hogar.
           
-      - **Blueprint Add-On Integration:**
-        - Sensor Light Add-On - Enhances media control automation. [Click Here](https://community.home-assistant.io/t/591824) to learn more.
-        - Bathroom Humidity Exhaust Fan - Keeps the lights ON when showering. [Click Here](https://community.home-assistant.io/t/509992) to learn more.
+      - **Integración de complementos Blueprint:**
+        - Complemento de sensor de luz: mejora la automatización del control multimedia. [Haga clic aquí](https://community.home-assistant.io/t/591824) para obtener más información.
+        - Extractor de Humedad del Baño - Mantiene las luces encendidas al ducharse. [Haga clic aquí](https://community.home-assistant.io/t/509992) para obtener más información.
+
     </details>
     
     
@@ -63,15 +36,15 @@ blueprint:
   input:
     motion_trigger:
       name: Trigger Sensor - Binary Sensors - Schedule *
-      description: The trigger sensors are responsible for turning the lights, switches, scenes, and scripts ON and OFF. You can choose any [binary sensors](https://www.home-assistant.io/integrations/binary_sensor/) you prefer as triggers.
-        Alternatively, if you prefer a time-based trigger, you can also add a [schedule helper](https://community.home-assistant.io/t/481048/1616).
+      description: Los sensores de disparo son los responsables de encender y apagar las luces, interruptores, escenas y scripts. Puede elegir cualquier [sensor binario](https://www.home-assistant.io/integrations/binary_sensor/) que prefiera como disparador.
+        Alternativamente, si prefiere un disparador basado en el tiempo, también puede añadir un [ayudante de programación](https://community.home-assistant.io/t/481048/1616).
+
+        
+        Cuando se utilizan varios sensores de disparo, es aconsejable agruparlos utilizando un ayudante de grupo.
+        Esto garantiza una ejecución más fluida de la automatización y evita conflictos.
         
         
-        When using multiple trigger sensors, it's advisable to group them together using a group helper.
-        This ensures smoother automation execution and prevents conflicts.
-        
-        
-        For more information on grouping your trigger sensors [Click Here](https://community.home-assistant.io/t/481048/34)
+        Para obtener más información sobre la agrupación de los sensores de disparo [Haga clic aquí](https://community.home-assistant.io/t/481048/34)
       selector:
         entity:
           filter:
@@ -81,14 +54,15 @@ blueprint:
           multiple: true
     light_switch:
       name: Lights - Switches - Scenes - Scripts *
-      description: The lights, switches, scenes, and scripts that will be activated by the trigger sensor/s.
-        If adding a scene or script, please refer to the 'Scenes & Scripts - Toggle Helper' section and the 'Scenes - Scripts To Turn OFF' section below.
+      description: Las luces, interruptores, escenas y scripts que serán activados por el/los sensor/es de disparo.
+        Si desea añadir una escena o un script, consulte la sección "Escenas y Scripts - Toggle Helper" y la sección "Escenas - Scripts para apagar".
 
 
-        For more information on how to use scenes & scripts [Click Here](https://community.home-assistant.io/t/481048/1595)
+        Para más información sobre cómo utilizar escenas y scripts [Haga clic aquí](https://community.home-assistant.io/t/481048/1595)
 
 
-        **NOTE** - You can only use entities. Areas and devices are not supported.
+        **NOTA** - Sólo puede utilizar entidades. Las áreas y los dispositivos no son compatibles.
+
       selector:
         target:
           entity:
@@ -99,8 +73,8 @@ blueprint:
               - script
     boolean_scenes_scripts:
       name: Scenes & Scripts - Toggle Helper
-      description: To ensure the smooth operation of the automation, it's recommended to create an independent toggle helper
-        when selecting a scene or script in "Lights - Switches - Scenes - Scripts" above and then enter it here.
+      description: Para garantizar el buen funcionamiento de la automatización, se recomienda crear un ayudante de conmutación independiente
+        al seleccionar una escena o script en "Luces - Interruptores - Escenas - Scripts" más arriba y luego introducirlo aquí.
       default: []
       selector:
         entity:
@@ -109,9 +83,9 @@ blueprint:
               - input_boolean
     end_scenes:
       name: Scenes - Scripts To Turn OFF
-      description: If you have selected a scene or a script to be turned ON above in "Lights - Switches - Scenes - Scripts"
-        or below in "Night Lights," and you would like it to be turned OFF after the time delay, then you must create a scene
-        or a script with everything OFF and enter it here.
+      description: Si ha seleccionado una escena o  script para que se encienda arriba en "Luces - Interruptores - Escenas - Guiones"
+        o abajo en "Luces nocturnas", y desea que se apague después del retardo, debe crear una escena o un guión con todo apagado e introducirlo aquí.
+        o un script con todo APAGADO e introducirlo aquí.
       default: []
       selector:
         entity:
@@ -122,7 +96,7 @@ blueprint:
               - script
     time_delay:
       name: Time Delay
-      description: The time delay determines how long the lights, switches, scenes, and scripts will remain active after all triggers are clear, initiating the time delay to turn them OFF.
+      description: El tiempo de retardo determina cuánto tiempo permanecerán activas las luces, los interruptores, las escenas y los scripts después de que todos los activadores se desactiven, iniciando el tiempo de retardo para apagarlos.
       default: 5
       selector:
         number:
@@ -132,9 +106,9 @@ blueprint:
           unit_of_measurement: minutes
     include_light_control:
       name: Use The Light Control Options (Optional)
-      description: Select if you would like to use brightness, colour temperature, or transition.
-        These settings will only affect a 'light' entity that supports each selected option.
-        The settings for brightness, colour temperature, and transition are provided below.
+      description: Seleccione si desea utilizar el brillo, la temperatura de color o la transición.
+        Estos ajustes sólo afectarán a una entidad "luz" que admita cada opción seleccionada.
+        A continuación se indican los ajustes de brillo, temperatura de color y transición.
       default: []
       selector:
         select:
@@ -148,7 +122,7 @@ blueprint:
               value: "use_transition"
     light_brightness:
       name: Brightness
-      description: The brightness setting for the lights when they are turned ON.
+      description: El ajuste de brillo de las luces cuando están encendidas.
       default: 100
       selector:
         number:
@@ -159,7 +133,7 @@ blueprint:
           unit_of_measurement: '%'
     light_colour_temperature:
       name: Colour Temperature
-      description: The colour temperature setting for the lights when they are turned ON.
+      description: Ajuste de la temperatura de color de las luces cuando están encendidas.
       default: 5000
       selector:
         number:
@@ -170,7 +144,7 @@ blueprint:
           unit_of_measurement: 'kelvin'
     light_transition_on:
       name: Transition - ON
-      description: The transition setting for the lights when they are turned ON.
+      description: El ajuste de transición para las luces cuando se encienden.
       default: 1
       selector:
         number:
@@ -181,7 +155,7 @@ blueprint:
           unit_of_measurement: seconds
     light_transition_off:
       name: Transition - OFF
-      description: The transition setting for the lights when they are turned OFF.
+      description: El ajuste de transición para las luces cuando están apagadas.
       default: 1
       selector:
         number:
@@ -192,8 +166,8 @@ blueprint:
           unit_of_measurement: seconds
     include_dynamic_lighting:
       name: Use The Dynamic Lighting Options (Optional)
-      description: This option aims to make continual adjustments in your lighting setup by modulating brightness according to floating lux values
-        or adapting colour temperature and brightness based on the sun's changing elevation. Choose from six preset options available in the dropdown menu.
+      description: Esta opción tiene como objetivo realizar ajustes continuos en su configuración de iluminación modulando el brillo según valores de lux flotantes
+        o adaptando la temperatura del color y la luminosidad en función de la elevación del sol. Elige entre seis opciones preestablecidas disponibles en el menú desplegable.
         
         
         1 - Lux Controlled Brightness
@@ -209,12 +183,13 @@ blueprint:
         6 - Sun Elevation Lighting - Colour Temp + Lux Controlled Brightness
         
         
-        A numbering system has been implemented to facilitate navigation within the dropdown selections. Each number corresponds to a specific configuration,
-        aiding users in identifying and adjusting the settings used within each selection. For instance, when selecting "3 - Sun Elevation Lighting - Colour Temp"
-        as a dropdown option, settings marked "Used in options 3, 5 or 6" are required for that respective selection because number 3 is included in those options.
+        Se ha implementado un sistema de numeración para facilitar la navegación dentro de las selecciones desplegables. Cada número corresponde a una configuración específica,
+        Cada número corresponde a una configuración específica, lo que ayuda a los usuarios a identificar y ajustar la configuración utilizada en cada selección. Por ejemplo, al seleccionar "3 - Iluminación de elevación del sol - Temperatura de color"
+        como opción desplegable, los ajustes marcados con "Utilizado en las opciones 3, 5 ó 6" son necesarios para esa selección respectiva porque el número 3 está incluido en esas opciones.
 
 
-        For more information on dynamic lighting settings [Click Here](https://community.home-assistant.io/t/481048/837)
+        Para más información sobre los ajustes de iluminación dinámica [Haga clic aquí](https://community.home-assistant.io/t/481048/837)
+
       default: disable_dynamic_lighting
       selector:
         select:
@@ -236,7 +211,7 @@ blueprint:
               value: "enable_sun_elevation_colour_lux_brightness"
     dynamic_lighting_lux_sensor:
       name: Dynamic Lighting - Ambient Light Sensor
-      description: "**Used in options 1, 2 or 6** - Enter the specific ambient light sensor to be used, based on the chosen settings."
+      description: "**Se utiliza en las opciones 1, 2 ó 6** - Introduzca el sensor de luz ambiental específico que se va a utilizar, en función de la configuración elegida."
       default: []
       selector:
         entity:
@@ -245,8 +220,8 @@ blueprint:
             device_class: illuminance
     dynamic_lighting_max_lux:
       name: Dynamic Lighting - Max Lux Value
-      description: "**Used in options 1, 2 or 6** - Specify the maximum lux value. Once the lux level meets or surpasses this set point, your lights will adjust to either their maximum or minimum brightness, depending on your chosen option. 
-        This value indicates when you prefer your lights to start turning on or off"
+      description: "**Utilizado en las opciones 1, 2 ó 6** - Especifica el valor máximo de lux. Una vez que el nivel de lux alcance o supere este valor, tus luces se ajustarán a su brillo máximo o mínimo, dependiendo de la opción elegida. 
+        Este valor indica cuándo prefiere que sus luces comiencen a encenderse o apagarse"
       default: 400
       selector:
         number:
@@ -256,8 +231,8 @@ blueprint:
           unit_of_measurement: lux
     dynamic_lighting_min_lux:
       name: Dynamic Lighting - Min Lux Value
-      description: "**Used in options 1, 2 or 6** - Specify the minimum lux value. Once the lux level meets or surpasses this set point, your lights will adjust to either their maximum or minimum brightness, depending on your chosen option. 
-        This value indicates when you prefer your lights to start turning on or off"
+      description: "**Utilizado en las opciones 1, 2 ó 6** - Especifica el valor mínimo de lux. Una vez que el nivel de lux alcance o supere este valor, tus luces se ajustarán a su brillo máximo o mínimo, dependiendo de la opción elegida. 
+        Este valor indica cuándo prefiere que sus luces comiencen a encenderse o apagarse"
       default: 40
       selector:
         number:
@@ -267,7 +242,7 @@ blueprint:
           unit_of_measurement: lux
     dynamic_lighting_max_brightness:
       name: Dynamic Lighting - Max Brightness Value
-      description: "**Used in options 1, 2, 4, 5 or 6** - Define the maximum brightness value, determines the peak brightness level for your lights."
+      description: "**Utilizado en las opciones 1, 2, 4, 5 o 6** - Define el valor máximo de luminosidad, determina el nivel máximo de luminosidad para tus luces"
       default: 100
       selector:
         number:
@@ -277,8 +252,8 @@ blueprint:
           unit_of_measurement: '%'
     dynamic_lighting_min_brightness:
       name: Dynamic Lighting - Min Brightness Value
-      description: "**Used in options 1, 2, 4, 5 or 6** - Specify the minimum brightness value, establishing the lowest brightness level for your lights.
-        When setting the brightness to 0%, the light will be turned off."
+      description: "**Utilizado en las opciones 1, 2, 4, 5 ó 6** - Especifica el valor mínimo de brillo, estableciendo el nivel de brillo más bajo para sus luces.
+        Al establecer el brillo en 0%, la luz se apagará."
       default: 0
       selector:
         number:
@@ -288,7 +263,7 @@ blueprint:
           unit_of_measurement: '%'
     dynamic_lighting_max_colour_temp:
       name: Dynamic Lighting - Max Colour Temperature
-      description: "**Used in options 3, 5 or 6** - Specify the highest colour temperature value, determining the coolest colour setting for your lights."
+      description: "**Utilizado en las opciones 3, 5 o 6** - Especifica el valor más alto de temperatura de color, determinando el ajuste de color más frío para tus luces."
       default: 5000
       selector:
         number:
@@ -299,7 +274,7 @@ blueprint:
           unit_of_measurement: 'kelvin'
     dynamic_lighting_min_colour_temp:
       name: Dynamic Lighting - Min Colour Temperature
-      description: "**Used in options 3, 5 or 6** - Set the lowest colour temperature value, defining the warmest colour setting for your lights."
+      description: "**Se utiliza en las opciones 3, 5 ó 6** - Establece el valor más bajo de temperatura de color, definiendo el ajuste de color más cálido para tus luces."
       default: 3000
       selector:
         number:
@@ -310,8 +285,8 @@ blueprint:
           unit_of_measurement: 'kelvin'
     dynamic_lighting_sun_elevation_start_rising:
       name: Dynamic Lighting - Sun Elevation Rising - Start Point
-      description: "**Used in options 3, 4, 5 or 6** - When the sun rises above the sensor's starting point, both the colour temperature and brightness
-        percentage will transition linearly from their minimum to maximum values until they reach the rising endpoint, based on the chosen settings."
+      description: "**Utilizado en las opciones 3, 4, 5 ó 6** - Cuando el sol se eleva por encima del punto de inicio del sensor, tanto la temperatura de color como el porcentaje de luminosidad
+        pasarán linealmente de sus valores mínimos a los máximos hasta alcanzar el punto final ascendente, en función de los ajustes elegidos."
       default: -1.5
       selector:
         number:
@@ -321,8 +296,8 @@ blueprint:
           unit_of_measurement: degrees
     dynamic_lighting_sun_elevation_end_rising:
       name: Dynamic Lighting - Sun Elevation Rising - End Point
-      description: "**Used in options 3, 4, 5 or 6**  - When the sun rises above the sensor's endpoint, the maximum colour temperature and maximum brightness value will
-        be established according to the chosen settings."
+      description: "**Utilizado en las opciones 3, 4, 5 ó 6** - Cuando el sol se eleva por encima del punto final del sensor, la temperatura de color máxima y el valor de luminosidad máxima se establecerán de acuerdo con la configuración elegida.
+        se establecerán en función de los ajustes elegidos."
       default: 15
       selector:
         number:
@@ -332,8 +307,8 @@ blueprint:
           unit_of_measurement: degrees
     dynamic_lighting_sun_elevation_start_falling:
       name: Dynamic Lighting - Sun Elevation Descending - Start Point
-      description: "**Used in options 3, 4, 5 or 6** - When the sun descends below the sensor's starting point, both the colour temperature and brightness percentage will
-        transition linearly from their maximum to minimum values until they reach the descending endpoint, based on the chosen settings."
+      description: "**Utilizado en las opciones 3, 4, 5 ó 6** - Cuando el sol desciende por debajo del punto inicial del sensor, tanto la temperatura de color como el porcentaje de luminosidad pasarán linealmente de sus valores máximos a los mínimos hasta que alcancen el punto final descendente, en función de los ajustes elegidos.
+        de color y el porcentaje de luminosidad pasarán linealmente de sus valores máximos a los mínimos hasta alcanzar el punto final descendente, en función de la configuración elegida."
       default: 15
       selector:
         number:
@@ -343,8 +318,8 @@ blueprint:
           unit_of_measurement: degrees
     dynamic_lighting_sun_elevation_end_falling:
       name: Dynamic Lighting - Sun Elevation Descending - End Point
-      description: "**Used in options 3, 4, 5 or 6** - When the sun descends below the sensor's endpoint, the minimum colour temperature and minimum brightness value will 
-        be established according to the chosen settings."
+      description: "**Utilizado en las opciones 3, 4, 5 ó 6** - Cuando el sol desciende por debajo del punto final del sensor, la temperatura de color mínima y el valor de luminosidad mínimo se establecerán de acuerdo con la configuración elegida. 
+        se establecerán en función de los ajustes elegidos."
       default: -4.0
       selector:
         number:
@@ -354,9 +329,9 @@ blueprint:
           unit_of_measurement: degrees
     dynamic_lighting_heartbeat:
       name: Dynamic Lighting - Heartbeat
-      description: "**Used in options 1, 2, 3, 4, 5 or 6** - Define the heartbeat rate, setting the operational speed.
-        During each heartbeat, it evaluates the lux value, light brightness, targeted brightness and the sun's elevation based on the chosen settings,
-            adjusting either brightness or colour temperature as per the selection."
+      description: "**Utilizado en las opciones 1, 2, 3, 4, 5 ó 6** - Define la frecuencia de sensoreo, ajustando la velocidad de funcionamiento.
+        Durante cada sensoreo, evalúa el valor de lux, el brillo de la luz, el brillo objetivo y la elevación del sol en función de los ajustes elegidos,
+            ajustando la luminosidad o la temperatura de color según la selección."
       default: 1
       selector:
         number:
@@ -366,9 +341,9 @@ blueprint:
           unit_of_measurement: minutes
     dynamic_lighting_step_value:
       name: Dynamic Lighting - Step Value
-      description: "**Used in options 1, 2 or 6** - With every heartbeat, the system evaluates the lux value, light brightness, and the targeted brightness.
-        If the targeted brightness surpasses the predefined step value, the system applies the set step value to gracefully moderate the rate of changes,
-        facilitating a smoother transition in light brightness."
+      description: "**Utilizado en las opciones 1, 2 ó 6** - Con cada latido, el sistema evalúa el valor lux, el brillo de la luz y el brillo objetivo.
+        Si la luminosidad objetivo supera el valor de paso predefinido, el sistema aplica el valor de paso establecido para moderar con elegancia el ritmo de los cambios,
+        facilitando una transición más suave en el brillo de la luz."
       default: 4
       selector:
         number:
@@ -378,9 +353,9 @@ blueprint:
           unit_of_measurement: '%'
     dynamic_lighting_dead_zone:
       name: Dynamic Lighting - Dead Zone (±)
-      description: "**Used in options 1, 2 or 6** - With every heartbeat, the system evaluates the current light brightness and the targeted brightness.
-        If the targeted brightness falls within the defined dead zone, the system maintains the current light brightness.
-        This prevents minor fluctuations in light intensity that could be bothersome to the eye."
+      description: "**Utilizado en las opciones 1, 2 ó 6** - En cada sensoreo, el sistema evalúa la luminosidad actual y la luminosidad deseada.
+        Si la luminosidad deseada se encuentra dentro de la zona muerta definida, el sistema mantiene la luminosidad actual.
+        De este modo se evitan pequeñas fluctuaciones en la intensidad de la luz que podrían resultar molestas para la vista."
       default: 7
       selector:
         number:
@@ -390,12 +365,13 @@ blueprint:
           unit_of_measurement: '%'
     include_bypass:
       name: Use The Bypass Options (Optional)
-      description: Select if you would like to enable an option. Each option allows manual control of your lights but alters its
-        behaviour by either turning ON, OFF, or keeping its current state when the bypass is switched ON. When enabling an option,
-        please enter the bypass switch into the corresponding input below.
+      description: Seleccione si desea activar una opción. Cada opción permite el control manual de sus luces pero altera su
+        comportamiento encendiéndose, apagándose o manteniendo su estado actual cuando se enciende la derivación. Al activar una opción,
+        introduzca el interruptor de bypass en la entrada correspondiente.
         
         
-        For more information on how to use the bypass [Click Here](https://community.home-assistant.io/t/481048/895)
+        Para más información sobre cómo utilizar el bypass [Haga clic aquí](https://community.home-assistant.io/t/481048/895)
+
       default: []
       selector:
         select:
@@ -409,34 +385,34 @@ blueprint:
           multiple: true
     motion_bypass_lights_on:
       name: Bypass Switch - Turn lights ON
-      description: Select the switches that will turn your lights ON, bypass the trigger sensor, and allow your lights to function as normal.
-        Please note that the entity cannot be included in the 'Lights - Switches - Scenes - Scripts' or 'Night Lights' selections.
+      description: Seleccione los interruptores que encenderán sus luces, anularán el sensor de activación y permitirán que sus luces funcionen normalmente.
+        Tenga en cuenta que la entidad no puede incluirse en las selecciones 'Luces - Interruptores - Escenas - scripts' o 'Luces nocturnas'.
       default: []
       selector:
         entity:
           multiple: true
     motion_bypass_lights_off:
       name: Bypass Switch - Turn lights OFF
-      description: Select the switches that will turn your lights OFF, bypass the trigger sensor, and allow your lights to function as normal.
-        Please note that the entity cannot be included in the 'Lights - Switches - Scenes - Scripts' or 'Night Lights' selections.
+      description: Seleccione los interruptores que apagarán sus luces, anularán el sensor de activación y permitirán que sus luces funcionen normalmente.
+        Tenga en cuenta que la entidad no puede incluirse en las selecciones 'Luces - Interruptores - Escenas - scripts' o 'Luces nocturnas'.
       default: []
       selector:
         entity:
           multiple: true
     motion_bypass_lights_stop:
       name: Bypass Switch - Keep The Lights Current State
-      description: Select the switches that will keep your lights current state, bypass the trigger sensor, and allow your lights to function as normal.
-        Please note that the entity cannot be included in the 'Lights - Switches - Scenes - Scripts' or 'Night Lights' selections.
+      description: Seleccione los interruptores que mantendrán el estado actual de sus luces, anularán el sensor de disparo y permitirán que sus luces funcionen normalmente.
+        Tenga en cuenta que la entidad no puede incluirse en las selecciones 'Luces - Interruptores - Escenas - scripts' o 'Luces nocturnas'.
       default: []
       selector:
         entity:
           multiple: true
     bypass_time_delay:
       name: Bypass - Time Delay
-      description: This is only used in two bypass scenarios; when the lights are already ON and when the automation turns the lights OFF.
-        The first scenario occurs when you have selected option 2 above to "Enable the Bypass - Turn lights OFF".
-        The second scenario occurs when you turn the bypass OFF, the trigger sensor is OFF, and your lights are ON.
-        In both scenarios, the automation will turn your lights OFF after the set time delay.
+      description: Esto sólo se utiliza en dos escenarios de anulación - cuando las luces ya están encendidas y cuando la automatización apaga las luces.
+        El primer escenario ocurre cuando usted ha seleccionado la opción 2 arriba para "Activar el Bypass - Apagar las luces".
+        El segundo escenario ocurre cuando usted desactiva el bypass, el sensor de activación está desactivado y las luces están encendidas.
+        En ambos casos, la automatización apagará las luces después del tiempo de retardo establecido.
       default: 0
       selector:
         number:
@@ -446,8 +422,8 @@ blueprint:
           unit_of_measurement: minutes
     include_bypass_auto_off:
       name: Use The Bypass Auto OFF Option (Optional)
-      description: This is used when you turn ON the bypass and want it to automatically turn OFF after a set time delay.
-        You can choose which bypass option you would like to apply the auto OFF feature to
+      description: Se utiliza cuando se activa el bypass y se desea que se desactive automáticamente después de un tiempo determinado.
+        Puede elegir a qué opción de bypass desea aplicar la función de desconexión automática
       default: []
       selector:
         select:
@@ -461,7 +437,7 @@ blueprint:
           multiple: true
     bypass_auto_off_delay:
       name: Bypass Auto OFF - Time Delay
-      description: Set the bypass auto OFF time delay. The time delay starts from the last bypass that was turned ON.
+      description: Ajuste el tiempo de retardo de la desactivación automática del bypass. El tiempo de retardo comienza a partir del ultimo bypass que se activó.
       default: 60
       selector:
         number:
@@ -471,11 +447,12 @@ blueprint:
           unit_of_measurement: minutes
     include_sun:
       name: Use The Sun Option (Optional)
-      description: This option is used to add a condition that only allows the automation to run when it is dark or below the 'Sun Elevation' settings.
-        It's a global condition that can work alongside other options. Enabling this option is not necessary for the night lights sun elevation condition to work.
+      description: Esta opción se utiliza para añadir una condición que sólo permite que la automatización se ejecute cuando está oscuro o por debajo de los ajustes de 'Elevación del Sol'.
+        Es una condición global que puede funcionar junto con otras opciones. Habilitar esta opción no es necesario para que funcione la condición de elevación del sol de las luces nocturnas.
         
         
-        For more information on sun settings [Click Here](https://community.home-assistant.io/t/481048/37)
+        Para más información sobre los ajustes del sol [Haga clic aquí](https://community.home-assistant.io/t/481048/37)
+
       default: sun_disabled
       selector:
         select:
@@ -486,8 +463,8 @@ blueprint:
               value: "sun_disabled"
     sun_elevation:
       name: Sun Elevation Falling
-      description: The sun elevation falling refers to the angle between the sun and the horizon when the sun is setting.
-        A negative value indicates that the sun is BELOW the horizon. For example, a setting guide of -1.5 corresponds to dusk
+      description: La caída de la elevación del sol se refiere al ángulo entre el sol y el horizonte cuando el sol se está poniendo.
+        Un valor negativo indica que el sol está POR DEBAJO del horizonte. Por ejemplo, una guía de puesta de -1,5 corresponde al crepúsculo
       default: -1.5
       selector:
         number:
@@ -497,8 +474,8 @@ blueprint:
           unit_of_measurement: degrees
     sun_elevation_rising:
       name: Sun Elevation Rising
-      description: The sun elevation rising refers to the angle between the sun and the horizon during sunrise.
-        A negative value indicates that the sun is BELOW the horizon. For example, a setting guide of -4.0 corresponds to dawn.
+      description: La elevación del sol naciente se refiere al ángulo entre el sol y el horizonte durante la salida del sol.
+        Un valor negativo indica que el sol está DEBAJO del horizonte. Por ejemplo, una guía de ajuste de -4,0 corresponde al amanecer.
       default: -4.0
       selector:
         number:
@@ -508,11 +485,11 @@ blueprint:
           unit_of_measurement: degrees
     include_ambient:
       name: Use The Ambient Options (Optional)
-      description: This option is used to add a condition that only allows the automation to run when it is dark or below the 'Ambient' settings.
-        It's a global condition that can work alongside other options.
+      description: Esta opción se utiliza para añadir una condición que sólo permite que la automatización se ejecute cuando está oscuro o por debajo de la configuración 'Ambiente'.
+        Es una condición global que puede funcionar junto con otras opciones.
         
         
-        For more information on ambient settings [Click Here](https://community.home-assistant.io/t/481048/1608)
+        Para obtener más información sobre la configuración de ambiente [Haga clic aquí](https://community.home-assistant.io/t/481048/1608)
       default: ambient_disabled
       selector:
         select:
@@ -532,11 +509,11 @@ blueprint:
             device_class: illuminance
     ambient_light_options:
       name: Ambient Light Sensor - Site Conditions
-      description: In some cases when your lights turn ON, your ambient light sensor is affected, increasing its LUX value.
-        This can cause the lights to go OFF prematurely. Please select an option that best suits your installation.
+      description: En algunos casos, cuando las luces se encienden, el sensor de luz ambiental se ve afectado, aumentando su valor LUX.
+        Esto puede provocar que las luces se APAGUE antes de tiempo. Seleccione la opción que mejor se adapte a su instalación.
         
         
-        **NOTE** - If using an offset between the high and low lux value, then please select NO.
+        **NOTA** - Si utiliza un offset entre el valor de lux alto y bajo, entonces por favor seleccione NO.
       default: ambient_light_option_disabled
       selector:
         select:
@@ -547,8 +524,8 @@ blueprint:
               value: "ambient_light_option_disabled"
     ambient_light_value:
       name: Ambient Light - Low Lux Value
-      description: Set the Ambient Light Low Lux Value. The light will turn ON when the lux level is below the set value.
-        This value must be equal or lower than the "High Lux Value" below. Guide is 20 lux (dusk).
+      description: Ajuste el valor de lux bajo de la luz ambiente. La luz se encenderá cuando el nivel de lux esté por debajo del valor ajustado.
+        Este valor debe ser igual o inferior al "Valor Lux Alto" que se indica a continuación. La guía es 20 lux (atardecer).
       default: 20
       selector:
         number:
@@ -558,9 +535,9 @@ blueprint:
           unit_of_measurement: lux
     ambient_light_high_value:
       name: Ambient Light - High Lux Value
-      description: Set the Ambient Light High Lux Value. The light will turn OFF when the lux level is above the set value.
-        This value must be equal or higher than the "Low Lux Value" above. 
-        Setting a value higher than the low value allows for an offset. Guide is 80 lux (dawn).
+      description: Ajuste el valor de lux alto de la luz ambiente. La luz se apagará cuando el nivel de lux sea superior al valor ajustado.
+        Este valor debe ser igual o superior al "Valor Lux Bajo" anterior. 
+        Establecer un valor superior al valor bajo permite una compensación. El valor guía es 80 lux (amanecer).
       default: 80
       selector:
         number:
@@ -570,12 +547,12 @@ blueprint:
           unit_of_measurement: lux
     include_time:
       name: Use The Time Options (Optional)
-      description: This option is used to add a condition that only allows the automation to run between the start time and end time settings on the selected weekdays.
-        These time settings are global conditions that can work alongside other options.
-        Enabling this option is not necessary for the night lights time condition to work.
+      description: Esta opción se utiliza para añadir una condición que sólo permite que la automatización se ejecute entre los ajustes de hora de inicio y hora de fin en los días laborables seleccionados.
+        Estos ajustes de hora son condiciones globales que pueden funcionar junto con otras opciones.
+        No es necesario activar esta opción para que funcione la condición horaria de las luces nocturnas.
         
         
-        For more information on time settings [Click Here](https://community.home-assistant.io/t/481048/310)
+        Para obtener más información sobre los ajustes de tiempo [Haga clic aquí](https://community.home-assistant.io/t/481048/310)
       default: time_disabled
       selector:
         select:
@@ -586,20 +563,20 @@ blueprint:
               value: "time_disabled"
     after_time:
       name: Start Time
-      description: Set the start time.
+      description: Ajuste la hora de inicio.
       default: 00:00:00
       selector:
         time:
     before_time:
       name: End Time
-      description: Set the end time.
+      description: Fije la hora de finalización.
       default: 00:00:00
       selector:
         time:
     weekday_options:
       name: Weekdays
-      description: Select the days of the week you would like the automation to run.
-        You must select "Enable the time options" above for the weekdays selections to work.
+      description: Seleccione los días de la semana en los que desea que se ejecute la automatización.
+        Debe seleccionar "Activar las opciones de hora" más arriba para que las selecciones de días de la semana funcionen.
       default:
         - mon
         - tue
@@ -629,10 +606,10 @@ blueprint:
               value: "sun"
     include_device_tracker:
       name: Use The Device Tracker Options (Optional)
-      description: Home Assistant can track the location of your devices (such as mobile phones) within a designated zone via the mobile app device tracker.
-        To utilize this option, you need to set up a zone and configure your devices for tracking in Home Assistant.
-        There are two enable options available; "Zone" tracks all devices within the zone, while "Zone + People" allows you to track individuals within a zone.
-        This feature can be particularly useful if you have pets triggering the sensor, turning your lights ON and OFF when no one is home.
+      description: Home assistant puede rastrear la ubicación de sus dispositivos (como teléfonos móviles) dentro de una zona designada a través del rastreador de dispositivos de la aplicación móvil.
+        Para utilizar esta opción, tienes que establecer una zona y configurar tus dispositivos para el seguimiento en Home Assitant.
+        Hay dos opciones de activación disponibles - "Zona" rastrea todos los dispositivos dentro de la zona, mientras que "Zona + Personas" te permite rastrear individuos dentro de una zona.
+        Esta función puede ser especialmente útil si tiene mascotas que activan el sensor, encendiendo y apagando las luces cuando no hay nadie en casa.
       default: device_tracker_disabled
       selector:
         select:
@@ -645,7 +622,7 @@ blueprint:
               value: "device_tracker_disabled"
     zone:
       name: Device Tracker - Zone
-      description: Choose the zone that will track your devices and/or people in it.
+      description: Elija la zona que rastreará sus dispositivos y/o las personas que se encuentren en ella.
       default: []
       selector:
         entity:
@@ -653,7 +630,7 @@ blueprint:
             domain: zone
     people:
       name: Device Tracker - People
-      description: Select the people you would like to track in the zone selected above. You must enter a zone above for this option to work.
+      description: Seleccione las personas que desea seguir en la zona seleccionada anteriormente. Debe introducir una zona arriba para que esta opción funcione.
       default: []
       selector:
         entity:
@@ -663,10 +640,10 @@ blueprint:
               - person
     include_night_lights:
       name: Use The Night Lights Options (Optional)
-      description: Enabling the night lights options allows for separate and customizable lighting control when the night lights conditions are met.
-        Night light condition options include entity state, time, or sun elevation. Please choose the condition option you would like to use below.
-        This feature is particularly beneficial for creating a soothing ambiance with softer lighting at night.
-        The flexibility of these options allows for personalized adjustments, enhancing your night time ambiance and comfort, especially when moving around during the night.
+      description: Habilitar las opciones de luces nocturnas permite un control de la iluminación independiente y personalizable cuando se cumplen las condiciones de las luces nocturnas.
+        Las opciones de condición de las luces nocturnas incluyen el estado de la entidad, la hora o la elevación del sol. Por favor, elija la opción de condición que desea utilizar a continuación.
+        Esta característica es particularmente beneficiosa para crear un ambiente relajante con una iluminación más suave por la noche.
+        La flexibilidad de estas opciones permite realizar ajustes personalizados, mejorando el ambiente nocturno y la comodidad, especialmente cuando se desplaza durante la noche.
       default: night_lights_disabled
       selector:
         select:
@@ -677,14 +654,14 @@ blueprint:
               value: "night_lights_disabled"
     night_lights:
       name: Night Lights
-      description: The lights, switches, scenes, and scripts that will be activated by the trigger sensor/s.
-        If adding a scene or script, please refer to the 'Night Lights - Scenes & Scripts - Toggle Helper' section below and the 'Scenes - Scripts To Turn OFF' section above.
+      description: Las luces, interruptores, escenas y scripts que serán activados por el/los sensor/es de disparo.
+        Si desea añadir una escena o un script, consulte la sección 'Luces nocturnas - Escenas y scripts - Toggle Helper' más abajo y la sección 'Escenas - Scripts para apagar' más arriba.
 
 
-        For more information on how to use scenes & scripts [Click Here](https://community.home-assistant.io/t/481048/1595)
+        Para más información sobre el uso de escenas y guiones [Haga clic aquí](https://community.home-assistant.io/t/481048/1595)
 
 
-        **NOTE** - You can only use entities. Areas and devices are not supported.
+        **NOTA** - Sólo puede utilizar entidades. Las áreas y los dispositivos no son compatibles.
       default: {}
       selector:
         target:
@@ -696,8 +673,8 @@ blueprint:
               - script
     night_boolean_scenes_scripts:
       name: Night Lights - Scenes & Scripts - Toggle Helper
-      description: To ensure the smooth operation of the automation, it's recommended to create an independent toggle helper
-        when selecting a scene or script in "Night Lights" above and then enter it here.
+      description: Para garantizar el buen funcionamiento de la automatización, se recomienda crear un ayudante de conmutación independiente
+        al seleccionar una escena o script en "Luces nocturnas" más arriba y luego introducirlo aquí.
       default: []
       selector:
         entity:
@@ -706,7 +683,7 @@ blueprint:
               - input_boolean
     night_time_delay:
       name: Night Lights - Time Delay
-      description: The time delay determines how long the night lights will remain active after all triggers are clear, initiating the time delay to turn them OFF.
+      description: El tiempo de retardo determina el tiempo que las luces nocturnas permanecerán activas después de que todos los disparadores estén despejados, iniciando el tiempo de retardo para apagarlas.
       default: 5
       selector:
         number:
@@ -716,15 +693,15 @@ blueprint:
           unit_of_measurement: minutes
     include_night_light_control:
       name: Night Lights - Use The Light Control Options (Optional)
-      description:  Select if you would like to use brightness, colour temperature, or transition.
-        These settings will only affect a 'light' entity that supports each selected option.
-        The settings for brightness, colour temperature, and transition are provided below. 
+      description:  Seleccione si desea utilizar el brillo, la temperatura de color o la transición.
+        Estos ajustes sólo afectarán a una entidad "luz" que admita cada opción seleccionada.
+        A continuación se indican los ajustes de brillo, temperatura de color y transición. 
         
         
-        Selecting 'If lights are ON, adjust the lights when crossing over' option ensures that the light control settings will be applied to any lights that are already ON during the transition from normal lights to night lights and vice versa.
+        Seleccionando la opción 'Si las luces están encendidas, ajustar las luces al cruzar' se garantiza que los ajustes de control de luces se aplicarán a cualquier luz que ya esté encendida durante la transición de luces normales a luces nocturnas y viceversa.
 
 
-        Selecting 'Yes - Manage OFF script when crossing over' is beneficial for scripts containing if-then-else actions that toggle various functions on and off during the transition from normal lights to night lights and vice versa.
+        La selección de la opción 'Sí - Gestionar OFF script al cruzar' es beneficiosa para los scripts que contienen acciones if-then-else que activan y desactivan varias funciones durante la transición de luces normales a luces nocturnas y viceversa.
       default: []
       selector:
         select:
@@ -742,7 +719,7 @@ blueprint:
               value: "manage_scripts_crossing_over"
     night_light_brightness:
       name: Night Lights - Brightness
-      description: The brightness setting of the night lights when they are turned ON.
+      description: El ajuste de brillo de las luces nocturnas cuando están encendidas.
       default: 20
       selector:
         number:
@@ -753,7 +730,7 @@ blueprint:
           unit_of_measurement: '%'
     night_light_colour_temperature:
       name: Night Lights - Colour Temperature
-      description: The colour temperature setting for the night lights when they are turned ON.
+      description: Ajuste de la temperatura de color de las luces nocturnas cuando están encendidas.
       default: 5000
       selector:
         number:
@@ -764,7 +741,7 @@ blueprint:
           unit_of_measurement: 'kelvin'
     night_light_transition_on:
       name: Night Lights - Transition - ON
-      description: The transition of the night lights when they are turned ON.
+      description: La transición de las luces nocturnas cuando se encienden.
       default: 1
       selector:
         number:
@@ -775,7 +752,7 @@ blueprint:
           unit_of_measurement: seconds
     night_light_transition_off:
       name: Night Lights - Transition - OFF
-      description: The transition of the night lights when they are turned OFF.
+      description: La transición de las luces nocturnas cuando se apagan.
       default: 1
       selector:
         number:
@@ -786,9 +763,9 @@ blueprint:
           unit_of_measurement: seconds
     night_lights_conditions:
       name: Night Lights Conditions (Required For Night Lights)
-      description: Select any night light condition from the options provided.
-        Ensure you've enabled 'Use the night lights options' in the section above and choose at least one 'Night Lights Condition' for night lights to operate.
-        Settings for each option are provided below
+      description: Seleccione cualquier condición de luz nocturna de las opciones proporcionadas.
+        Asegúrate de que has activado "Usar las opciones de luces nocturnas" en la sección anterior y elige al menos una "Condición de luces nocturnas" para que las luces nocturnas funcionen.
+        A continuación se indican los ajustes de cada opción
       default: []
       selector:
         select:
@@ -802,11 +779,11 @@ blueprint:
               value: "sun_enabled"
     night_lights_entity_state:
       name: Night Lights - Entity State
-      description: Select an entity that will trigger the activation of night lights when turned ON. This could be your phone on 'Do Not Disturb', a helper, a bed sensor, etc.
-        Please note that the selected entity cannot be included in the 'Lights - Switches - Scenes - Scripts' or 'Night Lights' selections.
+      description: Seleccione una entidad que activará las luces nocturnas cuando se enciendan. Podría ser su teléfono en 'No molestar', un ayudante, un sensor de cama, etc.
+        Tenga en cuenta que la entidad seleccionada no puede incluirse en las selecciones 'Luces - Interruptores - Escenas - Scripts' o 'Luces Nocturnas'.
         
         
-        For more information on entity state [Click Here](https://community.home-assistant.io/t/481048/663)
+        Para más información sobre el estado de las entidades [Haga clic aquí](https://community.home-assistant.io/t/481048/663)
       default: []
       selector:
         entity:
@@ -825,8 +802,8 @@ blueprint:
         time:
     night_lights_sun_elevation:
       name: Night Lights - Sun Elevation Falling
-      description: The sun elevation falling refers to the angle between the sun and the horizon when the sun is setting.
-        A negative value indicates that the sun is BELOW the horizon. For example, a setting guide of -1.5 corresponds to dusk.
+      description: La caída de la elevación del sol se refiere al ángulo entre el sol y el horizonte cuando el sol se está poniendo.
+        Un valor negativo indica que el sol está DEBAJO del horizonte. Por ejemplo, una guía de puesta de -1,5 corresponde al crepúsculo.
       default: -1.5
       selector:
         number:
@@ -836,8 +813,8 @@ blueprint:
           unit_of_measurement: degrees
     night_lights_sun_elevation_rising:
       name: Night Lights - Sun Elevation Rising
-      description: The sun elevation rising refers to the angle between the sun and the horizon during sunrise.
-        A negative value indicates that the sun is BELOW the horizon. For example, a setting guide of -4.0 corresponds to dawn.
+      description: La elevación del sol naciente se refiere al ángulo entre el sol y el horizonte durante la salida del sol.
+        Un valor negativo indica que el sol está DEBAJO del horizonte. Por ejemplo, una guía de ajuste de -4,0 corresponde al amanecer.
       default: -4.0
       selector:
         number:

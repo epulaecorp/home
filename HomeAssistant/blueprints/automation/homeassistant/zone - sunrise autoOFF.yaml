@@ -1,0 +1,34 @@
+blueprint:
+  name: ZONE - Sunrise AutoOFF
+  description: "Apaga todos los dispositivos de una zona específica al amanecer."
+  domain: automation
+  input:
+    zone_entities:
+      name: Area
+      description: "Area que deseas apagar al amanecer."
+      selector:
+        target:
+
+    offset:
+      name: Offset
+      description: "Tiempo en minutos antes o después del amanecer."
+      default: 0
+      selector:
+        number:
+          min: -60
+          max: 60
+          unit_of_measurement: minutes
+
+mode: single
+
+trigger:
+  - platform: sun
+    event: sunrise
+    offset: "{{ input.offset | int * 60 }}"
+
+condition: []
+
+action:
+  - service: homeassistant.turn_off
+    target:
+      entity_id: !input zone_entities

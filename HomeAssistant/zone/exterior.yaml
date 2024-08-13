@@ -52,7 +52,7 @@
                 columns: 2
                 cards:
                   - type: custom:button-card
-                    entity: 
+                    entity: switch.patio_exterior
                     name: Casita
                     template:
                       - switch

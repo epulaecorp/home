@@ -125,5 +125,5 @@ recorder:
   db_url: mysql://homeassistant:iothome@192.168.0.250/hass_db?charset=utf8mb4
   purge_keep_days: 30
 
-
+sun:
     

@@ -1,69 +1,39 @@
 blueprint:
   name: LIGHT - Motion & illuminance.
   description: >
-    Turn on a light, switch, scene, script or group based on motion detection, and low light level.
+    Enciende una luz, interruptor, escena, script o grupo basado en la detección de movimiento, y bajo nivel de luz.
 
-    This blueprint uses helper entities you have to create yourself for some input values, to be able to dynamically set limits. 
-    For instructions on creating the helper entities take a look in the Home Assistant Community forum topic:
+    Este plano utiliza entidades de ayuda que tienes que crear ti mismo para algunos valores de entrada, para poder establecer límites dinámicamente. 
+    Para obtener instrucciones sobre la creación de las entidades de ayuda, echa un vistazo al tema del foro de la Comunidad de Home Assistant:
     https://community.home-assistant.io/t/turn-on-light-switch-scene-or-script-based-on-motion-and-illuminance-more-conditions/257085
 
 
-    Required entities:
-      - Motion sensor (single sensor or group)
-      - Target entity (light, switch, scene* or script*)
+    - Entidad de bloqueo (cualquier entidad con estado on/off)
 
-    (*) If you select a scene or script as your target_entity, you must also define a target_off_entity, since scenes and scripts cannot be turned off.
-      An example for a target_off_entity could be a light or a light group.
+    - Límite de tiempo antes (input_datetime)
 
-    Optional features:
+    - Tiempo límite después (input_datetime)
 
-    - You can set a cutoff entity of which the value determines whether the illuminance level is low and the automation needs to trigger.
+    - Desactivar tiempo de espera (input_number definiendo cantidad en minutos)
 
-    - You can define a blocking entity, which blocks the automation from running when this entity's state is on.
+    - Desactivar entidad (cualquier entity_id que necesite ser desactivada después de la espera)
 
-    - You can define a turn-off blocking entity, which blocks the entity from turning off after the set delay.
-
-    - Time limits can also be defined to limit the time before and after the automation should trigger.
-
-    - If you want the entity to turn off after a certain amount of minutes, you can use the Wait Time input.
-
-    - If you want another entity than the target_entity to turn off after the delay, you can define a separate Turn-off entity (also important for scenes and scripts).
-    
-    - If you do not enable the optional entities the automation will skip these conditions.
-
-
-
-    Optional entities:
-
-    - Illuminance sensor (sensor in illuminance class)
-
-    - Illuminance cutoff value  (input_number)
-    
-    - Blocking entity (any entity with state on/off)
-
-    - Time limit before (input_datetime)
-
-    - Time limit after (input_datetime)
-
-    - Turn off wait time (input_number defining amount in minutes)
-
-    - Turn off entity (any entity_id that needs to be turned off after wait)
 
   domain: automation
   input:
     motion_sensor:
       name: Motion Sensor
-      description: This sensor will trigger the turning on of the target entity.
+      description: Este sensor activará el encendido de la entidad objetivo.
       selector:
         entity:
     target_entity:
       name: Target entity.
-      description: The light, switch, scene to turn on (or script to run) when the automation is triggered.
+      description: La luz, el interruptor o la escena que se encenderá (o la secuencia de comandos que se ejecutará) cuando se active la automatización..
       selector:
         entity:
     illuminance_sensor:
       name: (OPTIONAL) Illuminance sensor
-      description: This sensor will be used to determine the illumination.
+      description: Este sensor se utilizará para determinar la iluminación.
       default:
       selector:
         entity:
@@ -71,52 +41,53 @@ blueprint:
           device_class: illuminance
     illuminance_cutoff:
       name: (OPTIONAL) Illuminance cutoff value
-      description: This input_number will be used to compare to the current illumination to determine if it is low.
+      description: Este valor se utilizará para comparar con la iluminación actual para determinar si es baja.
       default:
       selector:
         entity:
           domain: input_number
     blocker_entity:
       name: (OPTIONAL) Blocking entity
-      description: If this entity's state is on, it will prevent the automation from running. E.g. sleepmode or away mode.
+      description: Si se activa, impedirá que se ejecute la automatización. Por ejemplo, modo de suspensión o modo ausente..
       default:
       selector:
         entity:
     time_limit_after:
       name: (OPTIONAL) Only run after time.
-      description: Automation will only run when time is later than this input_datetime value.
+      description: La automatización sólo se ejecutará cuando la hora sea posterior a esta hora.
       default:
       selector:
         entity:
           domain: input_datetime
     time_limit_before:
       name: (OPTIONAL) Only run before time.
-      description: Automation will only run when time is earlier than this input_datetime value.
+      description: La automatización sólo se ejecutará cuando la hora sea anterior a esta hora.
       default:
       selector:
         entity:
           domain: input_datetime
     no_motion_wait:
       name: (OPTIONAL) Turn off wait time (minutes)
-      description: Time in minutes to leave the target entity on after last motion is detected. If not used entity will not auto turn off.
+      description: Tiempo en minutos para dejar la entidad objetivo encendida después de detectar el último movimiento. Si no se utiliza, la entidad no se apagará automáticamente.
       default:
       selector:
         entity:
           domain: input_number
     turn_off_blocker_entity:
       name: (OPTIONAL) Turn-off Blocking entity
-      description: If this entity's state is on, it will prevent the target entity from turning off after the set delay.
+      description: Si el estado de esta entidad es activado, impedirá que la entidad de destino se apague tras el retardo establecido.
       default:
       selector:
         entity:
     target_off_entity:
       name: (OPTIONAL) Turn-off entity
-      description: If defined, this entity will be turned off instead of the default target entity. This can be helpful when using target entities of type scene or script.
+      description: Si se define, esta entidad se desactivará en lugar de la entidad objetivo por defecto. Esto puede ser útil cuando se utilizan entidades de destino de tipo escena o script.
       default:
       selector:
         entity:
     sunstate_condition:
-      name: When to trigger automation, based on the elevation of the sun. Use always when you don't want to add a condition for this.
+      name: Sun-state condition
+      description: Cuándo activar la automatización, en función de la elevación del sol. Utilice ALWAYS cuando no desee añadir una condición para ello..
       default: 'Always'
       selector:
         select:

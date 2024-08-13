@@ -1,48 +1,69 @@
 blueprint:
-  name: DEVICE - Daytime AutoOFF
-  description: Apaga un switch o luz después de un tiempo determinado con un selector para que funcione solo durante el día.
+  name: DEVICE - AutoOFF.
+  description: Apaga un dispositivo después de un tiempo de espera.
   domain: automation
   input:
     target_device:
-      name: Switch o Luz
-      description: El switch o luz que se apagará.
+      name: Target
+      description: Dispostivo a controlar.
       selector:
         entity:
           domain: 
             - switch
             - light
     delay_time:
-      name: Tiempo de demora
-      description: Tiempo después del cual el switch o luz se apagará (minutos).
-      default: 00:01:00
+      name: Tiempo de espera
+      description: Tiempo transcurrido antes de apagar el dispositivo.
+      default: 1
       selector:
         select:
           options:
-            - "1"
-            - "5"
-            - "10"
-            - "15"
-            - "30"
-    only_daytime:
-      name: Solo durante el día
-      description: Seleccione si desea que la automatización funcione solo durante el día.
-      default: false
+            - label: 1 minuto
+              value: "1"
+            - label: 5 minutos
+              value: "5"
+            - label: 10 minutos
+              value: "10"
+            - label: 15 minutos
+              value: "15"
+            - label: 30 minutos
+              value: "30"
+            - label: 1 hora
+              value: "60"
+    operation_mode:
+      name: Modo de operación
+      description: Cuándo se ejecuta la automatización.
+      default: daytime
       selector:
-        boolean:
+        select:
+          options:
+            - label: Solo durante el día (Default)
+              value: "daytime"
+            - label: Todo el tiempo
+              value: "all_day"
+
+variables:
+  operation_mode: !input operation_mode
 
 trigger:
   - platform: state
     entity_id: !input target_device
     to: 'on'
-
+ 
 condition:
-  - condition: template
-    value_template: >
-      {% if is_state('input_boolean.only_daytime', 'on') %}
-        {{ is_state('sun.sun', 'above_horizon') }}
-      {% else %}
-        true
-      {% endif %}
+  condition: and  # 'twilight' condition: dusk and dawn, in typical locations
+  conditions:
+    - "{{ (operation_mode == 'daytime') }}"
+    #- condition: template
+    #  value_template: "{{ state_attr('sun.sun', 'elevation') < 0 }}"
+    #- condition: template
+    #  value_template: "{{ state_attr('sun.sun', 'elevation') > -6 }}"
+    - condition: sun
+      after: sunrise
+      after_offset: "01:00:00"
+    - condition: sun
+      before: sunset
+      before_offset: "-01:00:00"
 
 action:
   - delay: 
@@ -50,3 +71,6 @@ action:
   - service: homeassistant.turn_off
     target:
       entity_id: !input target_device
+
+mode: restart
+max_exceeded: silent
